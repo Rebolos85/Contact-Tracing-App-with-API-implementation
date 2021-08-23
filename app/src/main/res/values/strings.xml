@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">TrazeClone</string>
+    <string name="traze">Traze</string>
+    <string name="my_profile">My Profile</string>
+    <string name="label_take_picture">Upload Picture</string>
+    <string name="label_registration_type">as Individual</string>
+    <string name="username">Traze ID</string>
+    <string name="vtracker_app">VTracker App</string>
+    <string name="contact_tracing">Contact Tracing</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="password">Password (Req) Mim 8 Characters, One digit, Capital and Small Letter </string>
+    <string name="middle_name">Middle Name</string>
+    <string name="suffix_name">Suffix Name</string>
+    <string name="change_type">Click to change the type</string>
+    <string name="label_step">Step 2 of 3- Fill up the following fields</string>
+    <string name="label_disclaimer">Your data is safe with us</string>
+    <string name="label_instructions">Note: Please put your real information as this will be used for contact tacing</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="email_address">Email address</string>
+    <string name="email">Email</string>
+    <string name="cdo">Cagayan de Oro City</string>
+    <string name="city_manila">Manila</string>
+    <string name="city_camaman_an">Camaman-an</string>
+    <string name="city_municipality">City/Municipality</string>
+
+    <string name="please_sign_in_to_continue">Please sign in to continue</string>
+    <string name="label_login">Login</string>
+    <string name="label_register">Register</string>
+    <string name="label_header_profile_image">Profile Image</string>
+    <string name="label_note_camera">Note: Your image profile will be use  as your identity for the contact tracing app</string>
+    <string name="label_dialog_continue">Continue</string>
+    <string-array name="list_of_towns">
+        <item>Cagayan de Oro City</item>
+        <item>Manila City</item>
+        <item>Misamis Oriental</item>
+    </string-array>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="loading">Loading</string>
+    <string name="Done">Done</string>
+    <string name="label_forgot_password">Forgot Password</string>
+    <string name="label_dont_have_account">Dont have an account yet?</string>
+    <string name="label_register_here">Register Here</string>
+    <string name="label_privacy_policy">Privacy Policy</string>
+    <string name="label_term_of_use">Terms of use</string>
+
+    <string name="settings">Settings</string>
+    <string name="notification">Notification</string>
+    <string name="label_home">Home</string>
+    <string name="qr_code">QR</string>
+    <string name="hello_dashboard">Hello Dashboard</string>
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
+    <string name="sort_by_name">Sort by Name</string>
+    <string name="sort_by_date">Sort by date</string>
+    <string name="register_as">Register as</string>
+    <string name="label_header">Note: Please select below according to your purpose upon your registration will be use for contact tracing</string>
+    <string name="label_barangay">Barangay</string>
+    <string name="individual_icon">Individual</string>
+    <string name="transportation">Transportation</string>
+    <string name="delivery_crew">Delivery Crew</string>
+    <string name="transporatation">Transportation, Establishment</string>
+    <string name="individual">You can register as indivivdual</string>
+    <string name="barangay">Barangay or Delivery Crew</string>
+    <string name="label_sub_header">Help your family into a secure environment. Use this app in order to feel safe and assured against uncertainty of the pandemic by providing simple contact tracing.</string>
+    <string name="label_login_main">LOGIN</string>
+    <string name="dont_have_account_yet">Dont have account yet?</string>
+    <string name="rationale_camera">This app needs to access with your camera so you can take pictures</string>
+    <string name="traze_contact_tracing">VTracker Contact Tracing</string>
+    <string name="label_access_descrption">You need to allow access to your phone camera to capture your phone to be saved locally in your mobile phone as your ID picture and you need to allow accessto your phone photo if you want to upload your ID picture to be saved locally in your mobile phone</string>
+    <string name="label_second_desciption_permission">Capture image or uploaded picture will be saved locally together with your profile and QR code as part of your identification when you present your QR code during scanning. This capture photo or image will be sent to VTracker Contact Tracing server data file in the cloud and will be use for your identity.</string>
+    <string name="label_exit_app">EXIT APP</string>
+    <string name="label_proceed">PROCEED</string>
+    <string name="label_continue_dialog">Continue</string>
+    <string name="label_capture_dialog">CAPTURE</string>
+    <string name="label_browse_dialog">BROWSE</string>
+    <string name="label_choices_header">SELECT CHOICES</string>
+    <string name="label_choices_description">Note: Please select the choices properly below upon this one will use contact tracing</string>
+    <string name="label_information_dialog_description">Note: Please capture your face properly because it will be save in our server and use as your identity for contact tracing</string>
+    <string name="label_photo_empty">Note: You really need to take a picture in order you can proceed for registration because your photo will serve as identity for contract tracing Please click continue in order you can take a picture now  </string>
+    <string name="label_unfinished_cropping_image_description">Ops, You cannot proceed for registration because your image was not successfully cropped because it will serve as your identity for contact tracing.Please click continue in order you can retake a picture now</string>
+    <string name="label_continue">Continue</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_sent">Sent</string>
+
+    <string name="label_one_time_password">A one time password has been sent to your phone number </string>
+    <string name="label_count_down_timer">Count down Timer</string>
+    <string name="label_didnot_received">Did not received OTP?</string>
+    <string name="label_resend_otp">Resend OTP</string>
+    <string name="label_verify">VERIFY</string>
+    <string name="cancel">Cancel</string>
+    <string name="Success_photo_upload_description">Your photo is successfully temporary uploaded to local database you need to verify the phone number that was sent to your photo to upload this in our server </string>
+    <string name="label_description_phone_authentication_response">Please wait for the message that was sent to your mobile phone that you it will take seconds to receive</string>
+</resources>

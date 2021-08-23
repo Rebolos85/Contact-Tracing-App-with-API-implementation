@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "7097751000",
+    "firebase_url": "https://auth-c18b8-default-rtdb.firebaseio.com",
+    "project_id": "auth-c18b8",
+    "storage_bucket": "auth-c18b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7097751000:android:a1a1e3f95ae3c6471a8ead",
+        "android_client_info": {
+          "package_name": "com.example.firebasestoretutorials"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7097751000-pp487d1jogsog0m9a52mvb2ngrbvcv4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB0m93Us_dQYkJqFPCKpcYyQswh3Q7U-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7097751000-pp487d1jogsog0m9a52mvb2ngrbvcv4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7097751000:android:a251f613001ef27d1a8ead",
+        "android_client_info": {
+          "package_name": "com.example.trazeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7097751000-pp487d1jogsog0m9a52mvb2ngrbvcv4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB0m93Us_dQYkJqFPCKpcYyQswh3Q7U-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7097751000-pp487d1jogsog0m9a52mvb2ngrbvcv4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7097751000:android:fac44263efb8205a1a8ead",
+        "android_client_info": {
+          "package_name": "com.example.trazecloneapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7097751000-pp487d1jogsog0m9a52mvb2ngrbvcv4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB0m93Us_dQYkJqFPCKpcYyQswh3Q7U-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7097751000-pp487d1jogsog0m9a52mvb2ngrbvcv4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

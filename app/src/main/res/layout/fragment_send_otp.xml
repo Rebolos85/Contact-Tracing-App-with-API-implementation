@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/phone_number_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.23000002" />
+
+    <TextView
+        android:id="@+id/label_phone_authentication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/profile_image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        tools:text="Phone Authentication" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/country_code_layout"
+        style="@style/TextInputSentOtpDesign"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/phone_number_layout"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/label_phone_authentication"
+        app:layout_constraintTop_toBottomOf="@+id/label_phone_authentication"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:text="+09" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/phone_number_layout"
+        style="@style/TextInputSentOtpDesign"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/country_code_layout"
+        app:layout_constraintEnd_toEndOf="@+id/profile_image"
+
+        app:layout_constraintStart_toEndOf="@id/country_code_layout"
+        app:layout_constraintTop_toTopOf="@+id/country_code_layout"
+        app:layout_constraintVertical_bias="0.07999998">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="3614567422" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/color_accent"
+        android:text="@string/label_sent"
+        app:cornerRadius="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/phone_number_layout"
+        app:layout_constraintStart_toStartOf="@+id/country_code_layout"
+        app:layout_constraintTop_toBottomOf="@+id/phone_number_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

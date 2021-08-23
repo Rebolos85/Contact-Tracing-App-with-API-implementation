@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    tools:context=".view.fragments.OtpVerificationFragment"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        tools:context=".view.fragments.OtpVerificationFragment"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/image_one_time_otp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/verify"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17000002" />
+
+        <TextView
+            android:id="@+id/label_one_time_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/label_one_time_password"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/image_one_time_otp"
+            app:layout_constraintStart_toStartOf="@+id/image_one_time_otp"
+            app:layout_constraintTop_toBottomOf="@+id/image_one_time_otp" />
+
+        <TextView
+            android:id="@+id/label_header_enter_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Enter OTP"
+            android:textColor="#424242"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="@+id/label_one_time_password"
+            app:layout_constraintTop_toBottomOf="@+id/label_one_time_password" />
+
+
+        <com.chaos.view.PinView
+            android:id="@+id/otp_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:inputType="number"
+            app:hideLineWhenFilled="true"
+            app:itemCount="6"
+
+            app:itemRadius="5dp"
+            android:cursorVisible="true"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_header_enter_otp"
+            app:lineColor="@color/black"
+            style="@style/PinWidget.PinView"
+            app:lineWidth="2dp" />
+
+        <TextView
+            android:id="@+id/label_did_not_received"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/label_didnot_received"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/label_resend_otp"
+
+            app:layout_constraintHorizontal_bias="0.24"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/otp_input"
+            app:layout_constraintTop_toBottomOf="@+id/otp_input" />
+
+        <TextView
+            android:id="@+id/label_resend_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/label_resend_otp"
+            android:textColor="@color/color_accent"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/label_did_not_received"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/label_did_not_received"
+            app:layout_constraintTop_toTopOf="@+id/label_did_not_received" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/verifyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/color_accent"
+            android:text="@string/label_verify"
+            app:cornerRadius="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_did_not_received" />
+
+        <TextView
+            android:id="@+id/label_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="end"
+            android:text="@string/cancel"
+            android:textColor="@color/color_accent"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/verifyButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verifyButton" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

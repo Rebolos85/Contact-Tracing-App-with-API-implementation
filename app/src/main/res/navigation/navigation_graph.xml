@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/qrCodeFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.trazeapp.view.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_choices_fragment"
+            app:destination="@id/choicesFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.trazeapp.view.fragments.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_choicesFragment"
+            app:destination="@id/choicesFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit"/>
+        <action
+            android:id="@+id/action_registerFragment_to_otpFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/otpVerificationFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popUpTo="@id/qrCodeFragment"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit"/>
+    </fragment>
+    <fragment
+        android:id="@+id/choicesFragment"
+
+        android:name="com.example.trazeapp.view.fragments.RegisterChoicesFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_choices_screen">
+        <action
+            android:id="@+id/action_choices_fragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="com.example.trazeapp.view.fragments.MainScreenFragment"
+        android:label="fragment_main_screen"
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_home_fragment"
+
+            app:destination="@id/choicesFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/pop_exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/exit" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_loginFragment"
+
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/pop_exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/exit" />
+
+    </fragment>
+    <dialog
+        android:id="@+id/permissionFragmentDialog"
+        android:name="com.example.trazeapp.view.customdialog.PermissionFragmentDialog"
+        android:label="fragment_contact_tracing_permission"
+        tools:layout="@layout/fragment_contact_tracing_permission" />
+    <action
+        android:id="@+id/action_global_permissionFragmentDialog"
+        app:destination="@id/permissionFragmentDialog" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.trazeapp.view.fragments.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_mainFragment"
+        app:destination="@id/mainFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/navigation_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_mainScreenFragment"
+        app:destination="@id/mainScreenFragment"
+        app:enterAnim="@anim/enter"
+        app:exitAnim="@anim/exit"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/pop_enter"
+        app:popExitAnim="@anim/pop_exit"
+        app:popUpTo="@id/navigation_graph"
+        app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/qrCodeFragment"
+        android:name="com.example.trazeapp.view.fragments.QrCodeFragment"
+        android:label="qr_code_fragment"
+        tools:layout="@layout/qr_code_fragment" />
+    <fragment
+        android:id="@+id/patientFragment"
+        android:name="com.example.trazeapp.view.fragments.PatientFragment"
+        android:label="contact_tracing_fragment"
+        tools:layout="@layout/contact_tracing_fragment" />
+    <fragment
+        android:id="@+id/otpVerificationFragment"
+        android:name="com.example.trazeapp.view.fragments.OtpVerificationFragment"
+        android:label="fragment_verify_otp_phone"
+        tools:layout="@layout/fragment_verify_otp_phone">
+        <argument
+            android:name="verificationOneTimePassword"
+            app:argType="string" />
+        <argument
+            android:name="registerCredentialsToFireStore"
+            app:argType="com.example.trazeapp.data.model.RegisterAsIndividual" />
+    </fragment>
+
+
+</navigation>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:xmmlns="http://schemas.android.com/apk/res/android">
+    <item xmmlns:drawable="@color/white" />
+    <item>
+        <bitmap
+            xmmlns:gravity="center"
+            xmmlns:src="@drawable/logo_icon" />
+
+    </item>
+
+</layer-list>
