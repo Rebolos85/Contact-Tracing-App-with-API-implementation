@@ -8,11 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trazeapp.R
 import com.example.trazeapp.adapter.bitmapresolver.BitmapResolver
-import com.example.trazeapp.data.model.IndividualModel
-import com.example.trazeapp.data.model.InputError
-import com.example.trazeapp.data.model.PhotoError
-import com.example.trazeapp.db.entity.UserImage
-
+import com.example.trazeapp.data.model.*
 import com.example.trazeapp.repository.UserRepository
 import com.example.trazeapp.util.error.InputErrorTarget
 import com.example.trazeapp.util.error.PhotoStates
@@ -31,7 +27,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
 
 @HiltViewModel
 class RegisterFragmentViewModel @Inject constructor(
@@ -42,34 +40,38 @@ class RegisterFragmentViewModel @Inject constructor(
 
     private val _stateFlow = MutableStateFlow<CredentialStates>(CredentialStates.Idle)
     val stateFlow: Flow<CredentialStates> get() = _stateFlow
-
+    val _hasPhoneNumber = SingleLiveEvent<String?>()
     private val _photoStateFlow = MutableStateFlow<PhotoCurrentState>(PhotoCurrentState.Idle)
     val photoStateFlow: Flow<PhotoCurrentState> get() = _photoStateFlow
 
-    fun register(
+    //    private val _phoneNumber = MutableStateFlow<PhoneNumberStates>(PhoneNumberStates.IDLE)
+//    val phoneNumber: Flow<PhoneNumberStates> get() = _phoneNumber
+    fun registerUserCredentials(
         individualCredentials: IndividualModel,
         registerFragment: RegisterFragment,
-
-
-        ) {
-        val countryCodeWithPhoneNumber = "+63" + individualCredentials.phoneNumber
+    ) {
         viewModelScope.launch {
             _stateFlow.emit(CredentialStates.Idle)
-            with(individualCredentials) {
-                val validateInput = validateInput(individualCredentials)
-                val photoStates = validateUserPhoto(model = individualCredentials, validateInput)
-                with(userRepository) {
-                    if (validateInput.isNullOrEmpty() && photoStates.isNullOrEmpty()) {
+            with(userRepository) {
+                with(individualCredentials) {
+                    val validateInput = validateInput(individualCredentials)
+                    val photoStates =
+                        validateUserPhoto(model = individualCredentials, validateInput)
+                    val validatePhoneNumber =
+                        checkPhoneNumberExist(individualCredentials, registerFragment)
 
-                        // para sure ma executed ni siya una ayha ang ubos
+                    if (validateInput.isNullOrEmpty() && photoStates.isNullOrEmpty() && validatePhoneNumber) {
+                        Log.d("MainActivity", "TEST SUCCESS")
+
+
+//            para sure ma executed ni siya una ayha ang ubos
                         _stateFlow.emit(CredentialStates.Loading)
                         try {
-//                            registerToEmailAuth(userEmail = email,
-//                                userPassword = password)
 
-                            requestPhoneNumber(phoneNumber = phoneNumber, registerFragment)
+                            registerToEmailAuth(userEmail = email,
+                                userPassword = password)
+
                             _stateFlow.emit(CredentialStates.SuccessAuth)
-
                         } catch (error: FirebaseAuthInvalidCredentialsException) {
 
                             _stateFlow.emit(
@@ -92,18 +94,24 @@ class RegisterFragmentViewModel @Inject constructor(
                         } catch (manyRequest: FirebaseTooManyRequestsException) {
                             _stateFlow.emit(CredentialStates.ValidServerErrorResponse("Sorry but you're restricted for temporary due to you have so many request which it can result to unusual activity, Please try again later"))
                         } catch (error: Exception) {
+                            Log.d("MainActivity", error.localizedMessage)
                             _stateFlow.emit(CredentialStates.ValidServerErrorResponse("Please check your internet connection"))
                         }
                     } else {
-                        _stateFlow.emit(CredentialStates.ValidateError(validateInput))
-                        _photoStateFlow.emit(PhotoCurrentState.PhotoErrorList(photoStates))
+
+                        _stateFlow.value = CredentialStates.ValidateError(validateInput)
+                        _photoStateFlow.value = PhotoCurrentState.PhotoErrorList(photoStates)
+
+//            return false
+//                        _phoneNumber.emit(PhoneNumberStates.NoDuplicatePhoneNumber(checkPhoneNumber))
                     }
+
+
                 }
+
             }
         }
-
     }
-
 
     private fun validateInput(
         individualRegister: IndividualModel,
@@ -228,11 +236,12 @@ class RegisterFragmentViewModel @Inject constructor(
                 validateInput.isNullOrEmpty() && unfinishedPhotoUri != null -> {
                     var bitmap: Bitmap? = null
                     unfinishedPhotoUri?.let { cropImageUri ->
-
+                        // mao ni mo convert URI to bitmap
                         bitmap = bitmapResolver.getBitmapOfCapturedImage(cropImageUri)
 
 
                     }
+                    // resized the bitmap to save into database para mas ma less consume siya
                     bitmap?.let { bitmapForResizedImage ->
                         setResizedImageBitmap(bitmap = bitmapForResizedImage)
                         Log.d("MainActivity", "Success resizedImage")
@@ -267,7 +276,7 @@ class RegisterFragmentViewModel @Inject constructor(
 
         val bitmapForResizeImage = imageResizer.resizeBitmap(bitmap, 150)
 //        insert(bitmapForResizeImage)
-        _photoStateFlow.value = PhotoCurrentState.SetBitmapPhoto(bitmap)
+        _photoStateFlow.value = PhotoCurrentState.SetBitmapPhoto(bitmapForResizeImage)
     }
 
 //    private fun insert(bitmapOfResizedImage: Bitmap) {
@@ -280,10 +289,35 @@ class RegisterFragmentViewModel @Inject constructor(
 //        }
 //    }
 
-    fun getPhoneAuthResponse() = userRepository.getPhoneAuthResponse()
 
+    // TODO: 8/26/2021 dapat kay  mag request nako og requestPhoneNumber sa registration
+    // mag gamit rako diri og enum to classify kung para aha siya
+    private suspend fun checkPhoneNumberExist(
+        individualCredentials: IndividualModel,
+        registerFragment: RegisterFragment,
+    ): Boolean {
+        val response = withContext(Dispatchers.IO) {
+            userRepository.checkUserPhoneNumberExist(phoneNumberInput = individualCredentials.phoneNumber)
+        }
+        try {
+            return if (response.size() >= 1) {
+                Log.d("MainActivity", "$ exist naman sorry")
+                _hasPhoneNumber.value =
+                    "Please enter another phone number because the phone number you entered is already different in another account"
+                false
+            } else {
+                true
+            }
+        } catch (error: FirebaseTooManyRequestsException) {
+            _stateFlow.emit(CredentialStates.ValidServerErrorResponse("You're temporary block due to too many request which you're restricted temporary, Please continue it later"))
+        }
+        return true
 
+    }
+
+    fun getPhoneAuthServerMessage() = userRepository.getPhoneAuthMessage()
 }
+
 
 
 

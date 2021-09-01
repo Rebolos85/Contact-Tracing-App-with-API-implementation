@@ -13,6 +13,7 @@ import com.example.trazeapp.repository.source.ProfileSource
 import com.example.trazeapp.repository.source.CloudSource
 import com.example.trazeapp.repository.source.PhoneAuthSource
 import com.example.trazeapp.util.retry
+import com.google.firebase.firestore.QuerySnapshot
 import javax.inject.Inject
 
 
@@ -42,6 +43,11 @@ class UserRepositoryImpl @Inject constructor(
         emailId = authSource.register(email = userEmail, password = userPassword)
     }
 
+    override suspend fun verifyOtpSentToPhone(verificationOtp: String, userEnterOtp: String) {
+        phoneNumberId = phoneAuthSource.verifyOtp(verificationOtpGenerated = verificationOtp,
+            userEnterOtp = userEnterOtp)
+    }
+
     override suspend fun registerToFireStore(
         email: String,
         name: Name,
@@ -53,35 +59,35 @@ class UserRepositoryImpl @Inject constructor(
         // i  retry nato kay para dili mo failed
         retry(initialDelay = 100, maxDelay = 1000) {
             emailId?.let { userRegisterId ->
-                profileSource.createUserRecord(
-                    User(
-                        emailUserId = userRegisterId,
-                        email = email,
-                        name = name,
-                        city = city,
-                        phoneNumber = phoneNumber,
-                        uriPathImageUpload = uriPathImage
+                phoneNumberId?.let { userRegistedPhoneId ->
+                    profileSource.createUserRecord(
+                        User(
+                            emailUserId = userRegisterId,
+                            phoneNumberId = userRegistedPhoneId,
+                            email = email,
+                            name = name,
+                            city = city,
+                            phoneNumber = phoneNumber,
+                            uriPathImageUpload = uriPathImage
 
+                        )
                     )
-                )
+                }
             }
         }
     }
-
-
-    override suspend fun verifyOtpSentToPhone(verificationOtp: String, userEnterOtp: String) {
-        phoneNumberId =  phoneAuthSource.verifyOtp(verificationOtpGenerated = verificationOtp,
-            userEnterOtp = userEnterOtp)
-    }
-
 
     override suspend fun logout() {
         authSource.logout()
     }
 
-    override suspend fun requestPhoneNumber(phoneNumber: String, fragment: Fragment) {
-        phoneAuthSource.requestPhoneAuthentication(phoneNumber = phoneNumber, fragment)
-    }
+//    override suspend fun requestPhoneNumber(phoneNumber: String, fragment: Fragment) {
+//        TODO("Not yet implemented")
+//    }
+
+//    override suspend fun requestPhoneNumber(phoneNumber: String, fragment: Fragment) {
+//        phoneAuthSource.requestPhoneAuthentication(phoneNumber = phoneNumber, fragment)
+//    }
 
 //    override suspend fun requestPhoneNumber(phoneNumber: String, fragment: Fragment) {
 //        phoneAuthSource.requestPhoneAuthentication(phoneNumber = phoneNumber, fragment = fragment)
@@ -96,11 +102,38 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun insertImageToRoom(userImage: UserImage) =
         imageDao.insertImage(userImage = userImage)
 
-    override fun getPhoneAuthResponse(): SingleLiveEvent<String?> =
-        phoneAuthProvider.duplicatePhoneNumber
+    override fun getPhoneAuthResponse(): SingleLiveEvent<String?> {
+        TODO("Not yet implemented")
+    }
+
+//    override fun getPhoneAuthResponse(): SingleLiveEvent<String?> =
+//        phoneAuthProvider.duplicatePhoneNumber
 
 
-    override fun getUserOtp(): SingleLiveEvent<String?> = phoneAuthProvider.verificationIdLiveEvent
+    override fun getUserOtp(): SingleLiveEvent<String?> = phoneAuthProvider.getUserVerificatitonId()
+    override suspend fun requestPhoneNumber(phoneNumber: String, fragment: Fragment) {
+        phoneAuthSource.requestPhoneAuthentication(phoneNumber = phoneNumber, fragment)
+    }
+
+    override suspend fun getPhoneUserId() {
+        phoneNumberId?.let { eachPhoneNumberExist ->
+            profileSource.getUserPhoneAuthId(eachPhoneNumberExist)
+        }
+    }
+
+    override suspend fun checkUserPhoneNumberExist(phoneNumberInput: String): QuerySnapshot =
+        profileSource.checkUserPhoneNumberExist(
+            phoneNumberInput = phoneNumberInput)
+
+
+    override fun getPhoneNumberMessage(): SingleLiveEvent<String?> =
+        profileSource.getPhoneExistMessage()
+
+    override fun getPhoneAuthMessage() = phoneAuthProvider.getTooManyRequestMessage()
+
+//    override fun getNoDuplicatePhoneNumberExist(): SingleLiveEvent<Boolean?> {
+//        return profileSource.getNoDuplicatePhoneNumber()
+//    }
 
 
 }

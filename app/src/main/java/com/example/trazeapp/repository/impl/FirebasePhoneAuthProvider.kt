@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 class FirebasePhoneAuthProvider @Inject constructor() {
     val verificationIdLiveEvent = SingleLiveEvent<String?>()
-    val duplicatePhoneNumber = SingleLiveEvent<String?>()
+    val exceptionMessage = SingleLiveEvent<String?>()
 
     //    val phoneAuthSuccessLiveEvent = MutableLiveData<FirebaseUser>()
 //    val phoneAuthFailureLiveEvent = SingleLiveEvent<String>()
@@ -27,11 +27,15 @@ class FirebasePhoneAuthProvider @Inject constructor() {
 
         override fun onVerificationFailed(p0: FirebaseException) {
             if (p0 is FirebaseTooManyRequestsException) {
-                duplicatePhoneNumber.value =
-                    "Sorry, but your phone number you entered is already use in different user account please use another phone number. Thank you"
+                exceptionMessage.value =
+                    "You're temporary block due too many request that can conclude suspicious activity that you're doing. Please try again later"
             }
-//            Log.d("MainActivity" ,"${p0.localizedMessage}")
-            Log.d("MainActivity", "Duplicate phone number : ${duplicatePhoneNumber.value}")
+//            if (p0 is FirebaseTooManyRequestsException) {
+//                duplicatePhoneNumber.value =
+//                    "Sorry, but your phone number you entered is already use in different user account please use another phone number. Thank you"
+//            }
+////            Log.d("MainActivity" ,"${p0.localizedMessage}")
+//            Log.d("MainActivity", "Duplicate phone number : ${duplicatePhoneNumber.value}")
         }
 
         override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
@@ -43,5 +47,8 @@ class FirebasePhoneAuthProvider @Inject constructor() {
         }
 
     }
+
+    fun getUserVerificatitonId() = verificationIdLiveEvent
+    fun getTooManyRequestMessage() = exceptionMessage
 }
 

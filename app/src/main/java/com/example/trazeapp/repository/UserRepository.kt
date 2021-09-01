@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.example.trazeapp.data.model.Name
 import com.example.trazeapp.data.model.SingleLiveEvent
 import com.example.trazeapp.db.entity.UserImage
+import com.google.firebase.firestore.QuerySnapshot
 
 
 /**
@@ -23,15 +24,19 @@ interface UserRepository {
         uriPathImage: String,
     )
 
-     suspend fun registerToEmailAuth(userEmail: String, userPassword: String)
+    suspend fun registerToEmailAuth(userEmail: String, userPassword: String)
     suspend fun verifyOtpSentToPhone(verificationOtp: String, userEnterOtp: String)
     suspend fun logout()
-    suspend fun requestPhoneNumber(phoneNumber: String, fragment: Fragment)
     suspend fun uploadPicture(uploadCropImageUri: Uri?)
     suspend fun insertImageToRoom(userImage: UserImage)
-     fun getPhoneAuthResponse(): SingleLiveEvent<String?>
+    fun getPhoneAuthResponse(): SingleLiveEvent<String?>
     fun getUserOtp(): SingleLiveEvent<String?>
+    suspend fun requestPhoneNumber(phoneNumber: String, fragment: Fragment)
+    suspend fun checkUserPhoneNumberExist(phoneNumberInput: String): QuerySnapshot
+    suspend fun getPhoneUserId()
+    fun getPhoneNumberMessage(): SingleLiveEvent<String?>
 
+    fun getPhoneAuthMessage():SingleLiveEvent<String?>
 }
 
 

@@ -92,4 +92,10 @@
     <string name="cancel">Cancel</string>
     <string name="Success_photo_upload_description">Your photo is successfully temporary uploaded to local database you need to verify the phone number that was sent to your photo to upload this in our server </string>
     <string name="label_description_phone_authentication_response">Please wait for the message that was sent to your mobile phone that you it will take seconds to receive</string>
+    <string name="label_government">Government Office</string>
+    <string name="name_olabel_f_business_government_office">Name of business/ Government Office</string>
+    <string name="label_landline_number">LandLine Number</string>
+    <string name="label_town_city_of_residence">Town/City of Residence</string>
+    <string name="label_business_location">Business Location</string>
+    <string name="label_registered_by">Registered by</string>
 </resources>

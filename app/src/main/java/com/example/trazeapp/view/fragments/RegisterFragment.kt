@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,12 +22,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import coil.ImageLoader
-import coil.request.ImageRequest
 import com.example.trazeapp.R
 import com.example.trazeapp.data.model.*
 import com.example.trazeapp.databinding.FragmentRegisterBinding
-import com.example.trazeapp.other.UriUploadImageCatcher
 import com.example.trazeapp.repository.impl.FirebasePhoneAuthProvider
 import com.example.trazeapp.repository.source.PhoneAuthSource
 import com.example.trazeapp.service.CropImageSource
@@ -45,9 +43,9 @@ import com.github.razir.progressbutton.showProgress
 import com.theartofdev.edmodo.cropper.CropImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -195,7 +193,7 @@ class RegisterFragment : Fragment() {
                         val suffixName = suffixNameInput.text?.toString()?.trim() ?: ""
                         val contactNumber = contactNumberInput.unMaskedText?.trim() ?: ""
                         val withCountryCodePhoneNumber =
-                            "+63" + contactNumberInput.unMaskedText?.trim() ?: ""
+                            "+63$contactNumber" ?: ""
                         val email = emailInput.text?.toString()?.trim() ?: ""
                         val city = cityInput.text?.toString()?.trim() ?: ""
 
@@ -214,8 +212,7 @@ class RegisterFragment : Fragment() {
                             cropImageUri,
                         )
 
-                        viewModel.register(model, this@RegisterFragment)
-//                        viewModel.sentOtpToPhoneNumber(model,this@RegisterFragment)
+                        viewModel.registerUserCredentials(model, this@RegisterFragment)
 
 
                         updateUserCredentials(
@@ -455,7 +452,6 @@ class RegisterFragment : Fragment() {
                             requireContext().toast(credentialStates.message)
                         }
                         is CredentialStates.ValidateError -> credentialStates.inputErrors?.let { eachCredentialEmpty ->
-                            requireContext().toast("HOOY ERROR ")
                             processErrors(eachCredentialEmpty)
 
 
@@ -464,49 +460,75 @@ class RegisterFragment : Fragment() {
                             requireContext().toast(R.string.label_description_phone_authentication_response)
                             registerButton.showSucessState()
                             processErrors(emptyList())
-
+                            try {
+                                phoneAuthSource.requestPhoneAuthentication(phoneNumber = "+63" + contactNumberInput.unMaskedText?.trim(),
+                                    this@RegisterFragment)
+                            } catch (error: Exception) {
+                                requireContext().toast("Error something occurred ${error.localizedMessage}")
+                            }
                         }
+                        CredentialStates.Idle -> registerButton.hideLoading()
 
+                        CredentialStates.SuccessOtpSent -> processErrors(emptyList())
                     }
 
                 }
-            }
 
-
-            viewModel.getUserPhoneOtp().observe(viewLifecycleOwner) { verificationId ->
-                val registerModelIndividual =
-                    RegisterAsIndividual(
-                        email = userEmail,
-                        basicUserCredentials = Name(
-                            first = firstName,
-                            last = lastName,
-                            suffix = suffixName,
-                            middle = middleName),
-                        city = city,
-                        phoneNumber = phoneNumber,
-                        resizeImageBitmap = resizeImage)
-
-                verificationId?.let {
-                    showOtpVerificationFragment(registerAsIndividual = registerModelIndividual,
-                        verificationId)
-                } ?: run {
-
-                }
-            }
-
-            viewModel.getPhoneAuthResponse().observe(viewLifecycleOwner) { phoneAuthResponse ->
-                phoneAuthResponse?.let {
-
-                } ?: run {
-                    registerButton.showSucessState()
-                }
             }
         }
 
+
+        viewModel.getUserPhoneOtp().observe(viewLifecycleOwner) { verificationId ->
+            val registerModelIndividual =
+                RegisterAsIndividual(
+                    email = userEmail,
+                    basicUserCredentials = Name(
+                        first = firstName,
+                        last = lastName,
+                        suffix = suffixName,
+                        middle = middleName),
+                    city = city,
+                    phoneNumber = phoneNumber,
+                    resizeImageBitmap = resizeImage)
+
+            verificationId?.let { verificationCode ->
+                requireContext().toast("NAA MAN SULOD")
+                showOtpVerificationFragment(registerAsIndividual = registerModelIndividual,
+                    verificationCode)
+            } ?: run {
+                requireContext().toast("FALSE MAN WALA SULOD")
+                binding.registerButton.showSucessState()
+            }
+        }
+
+//            viewModel.getPhoneAuthResponse().observe(viewLifecycleOwner) { phoneAuthResponse ->
+//                phoneAuthResponse?.let {
+//
+//                } ?: run {
+//                    registerButton.showSucessState()
+//                }
+//            }
+
+        viewModel._hasPhoneNumber.observe(viewLifecycleOwner) { phoneNumberResponse ->
+            phoneNumberResponse?.let { phoneNumber ->
+                requireContext().toast(phoneNumber)
+            }
+        }
+
+        viewModel.getPhoneAuthServerMessage()
+            .observe(viewLifecycleOwner) { phoneAuthenticationResponse ->
+                phoneAuthenticationResponse?.let { message ->
+                    requireContext().toast(message)
+                }
+
+            }
+
     }
 
-
 }
+
+
+
 
 
 
